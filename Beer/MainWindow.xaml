@@ -1,0 +1,212 @@
+﻿<Window x:Class="Beer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:c="clr-namespace:Beer"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600 " Width="800"
+        Icon="beer.png">
+    <Window.Resources>
+
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="New"
+                        CanExecute="New_CanExecute"
+                        Executed="New_Executed"/>
+        <CommandBinding Command="c:CustomCommands.AddRecipe"
+                        CanExecute="New_CanExecute"
+                        Executed="New_Executed"/>
+        <CommandBinding Command="c:CustomCommands.AddHop"
+                        CanExecute="AddHop_CanExecute"
+                        Executed="AddHop_Execute"/>
+        <CommandBinding Command="c:CustomCommands.AddMalt"
+                        CanExecute="AddMalt_CanExecute"
+                        Executed="AddMalt_Execute"/>
+
+
+
+    </Window.CommandBindings>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem Command="New"/>
+            </MenuItem>
+        </Menu>
+
+        <ToolBarTray DockPanel.Dock="Top" >
+            <ToolBar>
+                <Button Command="c:CustomCommands.AddHop" >
+                    <Button.Content>
+                        <Image Source="hop.png" Width="20"/>
+                    </Button.Content>
+                </Button>
+                <Button>
+                    <Button.Content>
+                        <Image Source="grain.png" Width="20"/>
+                    </Button.Content>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        
+        
+
+        <StackPanel DockPanel.Dock="Left" Width="150" Margin="5">
+            <ListBox  x:Name="ListOfBeers" MouseDoubleClick="ListOfBeers_MouseDoubleClick">
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Command="c:CustomCommands.AddRecipe"/>
+
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Name}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+        <Grid DockPanel.Dock="Bottom">
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <TextBlock x:Name="SumOfHop" Text="{Binding}"></TextBlock>
+              
+
+            </StackPanel>
+
+
+
+
+            <TabControl Grid.Row="1">
+                <TabItem Header="Słód">
+
+                    <DataGrid x:Name="ListOfMalts"
+                         CanUserAddRows="False" 
+                         AlternatingRowBackground="#FFE3E4E5"
+                         AutoGenerateColumns="False">
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="Background" Value="#FFF9F9F9"/>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="c:CustomCommands.AddMalt"/>
+                                <MenuItem Command="Delete"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                        
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Słód" Binding="{Binding Path=NameOfMalt}">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Barwa" Binding="{Binding Path=ColorOfMalt}" />
+
+
+                            <DataGridTemplateColumn Header="Wydajność" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=YieldOfMalt, StringFormat={}{0} %}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Waga">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=WeightOfMalt, StringFormat={}{0} g}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                        
+                        
+                    </DataGrid>
+                </TabItem>
+
+
+
+                <TabItem Header="Chmiel">
+
+                    <!--
+                    Stworzenie tabeli z Chmielami 
+                    
+                    
+                    AlternatingRowBackground -> kolor co drugiego wiersza
+                    AutoGenerateColumns -> False  żeby móc samemu ustawić wartość na Header oraz kolejność
+                    -->
+                    <DataGrid x:Name="ListOfHops" 
+                          CanUserAddRows="False" 
+                          AlternatingRowBackground="#FFE3E4E5"
+                          AutoGenerateColumns="False" >
+
+                        <!-- Tworzenie menu rozwijanego z prawego przycisku-->
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="Delete"/>
+                                <MenuItem Command="c:CustomCommands.AddHop"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+
+                        <!-- Tworzenie Kolumn z danymi chmielu   -->
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Chmiel" Binding="{Binding Path=NameOfHop}" Width="150" >
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="FontWeight" Value="Bold" />
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+
+                            </DataGridTextColumn>
+
+                            <DataGridTemplateColumn Header="Alfa Kwasy ">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=AlphaAcidsOfHop, StringFormat={}{0} %}" HorizontalAlignment="Center" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+
+                            <DataGridTemplateColumn Header="Waga" IsReadOnly="False" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=WeightOfHop, StringFormat={}{0} g}" HorizontalAlignment="Center"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Header="Czas" Binding="{Binding Path=TimeOfBoiling}"/>
+
+
+                        </DataGrid.Columns>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="Background" Value="#FFF9F9F9"/>
+                            </Style>
+                        </DataGrid.RowStyle>
+                    </DataGrid>
+                </TabItem>
+
+            </TabControl>
+
+        </Grid>
+
+
+
+    </DockPanel>
+</Window>

@@ -1,0 +1,34 @@
+﻿<Window x:Class="Beer.AddHop"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Beer"
+        mc:Ignorable="d"
+        Title="AddHop" Height="210" Width="360">
+    <StackPanel Margin="5">
+        <WrapPanel>
+            <Label Width="100" Margin="3">Podaj Nazwe: </Label>
+            <TextBox x:Name="AddHopName" Width="220" Margin="3"/>
+        </WrapPanel>
+        <WrapPanel>
+            <Label Width="100" Margin="3">Podaj Wagę:</Label>
+            <TextBox x:Name="AddHopWeight" Width="180" Margin="3"/>
+            <Label Margin="3">g</Label>
+
+        </WrapPanel>
+        <WrapPanel>
+            <Label Width="100" Margin="3">Podaj Alfa Kwasy:</Label>
+            <TextBox x:Name="AddHopAcids" Width="180" Margin="3"/>
+            <Label Margin="3">%</Label>
+
+        </WrapPanel>
+        <WrapPanel>
+            <Label Width="100" Margin="3">Podaj Czas:</Label>
+            <TextBox x:Name="AddHopTime" Width="180" Margin="3"/>
+            <Label Margin="3">min</Label>
+
+        </WrapPanel>
+        <Button Margin="5" x:Name="AddHopButton" Click="AddHopButton_Click">Dodaj</Button>
+    </StackPanel>
+</Window>
