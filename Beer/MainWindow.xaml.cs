@@ -98,7 +98,7 @@ namespace Beer
         private void SumOfHopFunction()
         {
             sumOfHop = listOfBeers[openIndex].SumOfHops;
-            SumOfHop.DataContext = sumOfHop;
+            //SumOfHop.DataContext = sumOfHop;
 
         }
 
@@ -109,7 +109,7 @@ namespace Beer
             listOfBeers[openIndex].AddHops(addHop.AddHopName.Text, Convert.ToDouble(addHop.AddHopAcids.Text), Convert.ToInt32(addHop.AddHopTime.Text), Convert.ToInt32(addHop.AddHopWeight.Text));
             listOfBeers[openIndex].SumOfHops += Convert.ToInt32(addHop.AddHopWeight.Text);
             sumOfHop = listOfBeers[openIndex].SumOfHops;
-            MessageBox.Show(sumOfHop.ToString());
+            MessageBox.Show(MaltItem.IsSelected.ToString());
 
             SumOfHopFunction();
 
@@ -118,22 +118,65 @@ namespace Beer
 
         private void AddHop_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;
+            if (HopItem != null)
+            {
+                if (HopItem.IsSelected == true)
+                {
+                    e.CanExecute = true;
+                }
+                else
+                    e.CanExecute = false;
+            }
+
 
         }
 
         private void AddMalt_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;
+            if (MaltItem != null)
+            {
+                if (MaltItem.IsSelected == true)
+                {
+                    e.CanExecute = true;
+                }
+                else
+                {
+                    e.CanExecute = false;
+                }
+            }
 
         }
 
         private void AddMalt_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            int a = ListOfBeers.SelectedIndex;
             AddMalt addMalt = new AddMalt();
             addMalt.ShowDialog();
-            listOfBeers[a].AddMalts(addMalt.AddMaltName.Text, Convert.ToInt32(addMalt.AddWeightMalt.Text),Convert.ToInt32(addMalt.AddColorMalt.Text), Convert.ToInt32(addMalt.AddYieldMalt.Text));
+            listOfBeers[openIndex].AddMalts(addMalt.AddMaltName.Text, Convert.ToInt32(addMalt.AddWeightMalt.Text),Convert.ToInt32(addMalt.AddColorMalt.Text), Convert.ToInt32(addMalt.AddYieldMalt.Text));
+            MessageBox.Show(HopItem.IsSelected.ToString());
+
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(MaltItem.IsSelected==true)
+            {
+                AddMalt addMalt = new AddMalt();
+                addMalt.ShowDialog();
+                listOfBeers[openIndex].AddMalts(addMalt.AddMaltName.Text, Convert.ToInt32(addMalt.AddWeightMalt.Text), Convert.ToInt32(addMalt.AddColorMalt.Text), Convert.ToInt32(addMalt.AddYieldMalt.Text));
+                MessageBox.Show(HopItem.IsSelected.ToString());
+            }
+            else if(HopItem.IsSelected==true)
+            {
+                AddHop addHop = new AddHop();
+                addHop.ShowDialog();
+                listOfBeers[openIndex].AddHops(addHop.AddHopName.Text, Convert.ToDouble(addHop.AddHopAcids.Text), Convert.ToInt32(addHop.AddHopTime.Text), Convert.ToInt32(addHop.AddHopWeight.Text));
+                listOfBeers[openIndex].SumOfHops += Convert.ToInt32(addHop.AddHopWeight.Text);
+                sumOfHop = listOfBeers[openIndex].SumOfHops;
+  
+
+                SumOfHopFunction();
+
+            }
         }
     }
 }

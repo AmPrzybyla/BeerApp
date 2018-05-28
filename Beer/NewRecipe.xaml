@@ -12,10 +12,7 @@
                 <Label Width="60" >Nazwa: </Label>
                 <TextBox Margin="3" Width="140" x:Name="NameOfBeerBox" />
             </WrapPanel>
-            <WrapPanel >
-                <Label Width="60" >Styl:</Label>
-                <TextBox Margin="3" Width="140" x:Name="StyleOfBeerBox"/>
-            </WrapPanel>
+           
             <Button x:Name="AddBeer" Margin="5" Click="AddBeer_Click">Dodaj</Button>
         </StackPanel>
     </Grid>

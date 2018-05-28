@@ -66,6 +66,7 @@
     <Compile Include="NewRecipe.xaml.cs">
       <DependentUpon>NewRecipe.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PercentageConverter.cs" />
     <Compile Include="Recipe.cs" />
     <Page Include="AddHop.xaml">
       <SubType>Designer</SubType>
@@ -119,13 +120,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="hop.png" />
+    <Resource Include="hop.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="beer.png" />
+    <Resource Include="beer.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="grain.png" />
+    <Resource Include="grain.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
