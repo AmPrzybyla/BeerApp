@@ -26,7 +26,6 @@ namespace Beer
     {
 
         public ObservableCollection<Recipe> listOfBeers = new ObservableCollection<Recipe>();
-        public int sumOfHop;
         public int openIndex;
 
 
@@ -59,7 +58,6 @@ namespace Beer
             ListOfHops.ItemsSource = listOfBeers[openIndex].listOfHops;
             ListOfMalts.ItemsSource = listOfBeers[openIndex].listOfMalts;
 
-            SumOfHopFunction();
 
 
         }
@@ -95,12 +93,7 @@ namespace Beer
             MessageBox.Show(newRecipe.NameOfBeerBox.Text);
         }
 
-        private void SumOfHopFunction()
-        {
-            sumOfHop = listOfBeers[openIndex].SumOfHops;
-            //SumOfHop.DataContext = sumOfHop;
 
-        }
 
         private void AddHop_Execute(object sender, ExecutedRoutedEventArgs e)
         {
@@ -108,10 +101,8 @@ namespace Beer
             addHop.ShowDialog();
             listOfBeers[openIndex].AddHops(addHop.AddHopName.Text, Convert.ToDouble(addHop.AddHopAcids.Text), Convert.ToInt32(addHop.AddHopTime.Text), Convert.ToInt32(addHop.AddHopWeight.Text));
             listOfBeers[openIndex].SumOfHops += Convert.ToInt32(addHop.AddHopWeight.Text);
-            sumOfHop = listOfBeers[openIndex].SumOfHops;
-            MessageBox.Show(MaltItem.IsSelected.ToString());
 
-            SumOfHopFunction();
+
 
 
         }
@@ -151,8 +142,10 @@ namespace Beer
         {
             AddMalt addMalt = new AddMalt();
             addMalt.ShowDialog();
-            listOfBeers[openIndex].AddMalts(addMalt.AddMaltName.Text, Convert.ToInt32(addMalt.AddWeightMalt.Text),Convert.ToInt32(addMalt.AddColorMalt.Text), Convert.ToInt32(addMalt.AddYieldMalt.Text));
+            listOfBeers[openIndex].AddMalts(addMalt.AddMaltName.Text, Convert.ToDouble(addMalt.AddWeightMalt.Text),Convert.ToInt32(addMalt.AddColorMalt.Text), Convert.ToInt32(addMalt.AddYieldMalt.Text));
             MessageBox.Show(HopItem.IsSelected.ToString());
+            listOfBeers[openIndex].CalculateColorOfBeer();
+            EbcWindow.DataContext = Math.Round(listOfBeers[openIndex].ColorOfBeer);
 
         }
 
@@ -171,12 +164,15 @@ namespace Beer
                 addHop.ShowDialog();
                 listOfBeers[openIndex].AddHops(addHop.AddHopName.Text, Convert.ToDouble(addHop.AddHopAcids.Text), Convert.ToInt32(addHop.AddHopTime.Text), Convert.ToInt32(addHop.AddHopWeight.Text));
                 listOfBeers[openIndex].SumOfHops += Convert.ToInt32(addHop.AddHopWeight.Text);
-                sumOfHop = listOfBeers[openIndex].SumOfHops;
-  
 
-                SumOfHopFunction();
+
 
             }
+        }
+
+        private void Size_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            listOfBeers[openIndex].SizeBefore = Convert.ToDouble(Size.Text);
         }
     }
 }

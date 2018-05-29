@@ -12,6 +12,7 @@ namespace Beer
     {
         public string Name { get; set; }
         public int SumOfHops { get; set; }
+        public double SizeBefore { get; set; }
 
         public double ColorOfBeer { get; set; }
 
@@ -20,7 +21,17 @@ namespace Beer
         public ObservableCollection<Malts> listOfMalts = new ObservableCollection<Malts>();
 
       
-
+        public void CalculateColorOfBeer()
+        {
+            double temp=0;
+            foreach (var item in listOfMalts)
+            {
+                temp += item.WeightOfMalt * 2.204622 * item.ColorOfMalt / 1.97;
+            }
+            temp = temp / (SizeBefore / 3.7854);
+            temp = 1.97 *(1.4922* (Math.Pow(temp,0.6859)));
+            ColorOfBeer = temp;
+        }
        
         //public Recipe(string name)
         //{
