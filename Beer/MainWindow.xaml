@@ -9,6 +9,7 @@
         Icon="beer.png">
     <Window.Resources>
         <c:PercentageConverter x:Key="PercentageConverter"/>
+        <c:VolumeConverter x:Key="VolumeConverter"/>
         <Style x:Key="ImageEnabled" TargetType="Image">
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="False">
@@ -87,30 +88,31 @@
                         <Button Margin="10">edi</Button>
                         <WrapPanel>
                             <Label Width="200">Nazwa:</Label>
-                            <TextBox Width="150"></TextBox>
+                            <TextBox  x:Name="NameBox"  Text="{Binding Path=Name}" Width="150"></TextBox>
                         </WrapPanel>
                         <WrapPanel>
                             <Label Width="200">Styl</Label>
                             <TextBox Width="150"></TextBox>
                         </WrapPanel>
                         <WrapPanel>
-                            <Label Width="200">Docelowa wielkość warki:</Label>
-                            <TextBox Width="150"></TextBox>
+                            <Label Width="200">Wielkość warki przed gotowaniem:</Label>
+                            <!--<TextBox Width="150" x:Name="Size"   ></TextBox>-->
+                            <TextBox Width="150" x:Name="Size" IsEnabled="False" Text="{Binding Converter={StaticResource VolumeConverter}, ElementName=SizeAfterBoil, Path=Text}" TextChanged="ValueChange" ></TextBox>
                         </WrapPanel>
                         <WrapPanel>
-                            <Label Width="200">Wielkość warki przed gotowaniem:</Label>
-                            <TextBox Width="150" x:Name="Size" TextChanged="Size_TextChanged"></TextBox>
+                            <Label Width="200">Docelowa wielkość warki:</Label>
+                            <TextBox Width="150" x:Name="SizeAfterBoil" Text="21"></TextBox>
                         </WrapPanel>
                         <WrapPanel>
                             <Label Width="200">Wydajność</Label>
-                            <TextBox Width="150"></TextBox>
+                            <TextBox x:Name="EfficientyBox" Width="150" LostFocus="bye" >72</TextBox>
                         </WrapPanel>
                     </StackPanel>
-                    <StackPanel DockPanel.Dock="Right"  Width="{Binding Converter={StaticResource PercentageConverter}, ElementName=StackPanel, Path=ActualWidth, ConverterParameter=5}">
+                    <StackPanel DockPanel.Dock="Right"  Width="{Binding Converter={StaticResource PercentageConverter}, ElementName=StackPanel, Path=ActualWidth, ConverterParameter=5}" >
                         <Button Margin="10">edi</Button>
                         <WrapPanel>
                             <Label Width="200">BLG</Label>
-                            <TextBox Width="150"></TextBox>
+                            <TextBlock x:Name="BLGWindow" Width="150" Text="{Binding}" ></TextBlock>
                         </WrapPanel>
                         <WrapPanel>
                             <Label Width="200">BLG przed gotowaniem</Label>

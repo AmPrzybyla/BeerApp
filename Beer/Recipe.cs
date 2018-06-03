@@ -13,13 +13,30 @@ namespace Beer
         public string Name { get; set; }
         public int SumOfHops { get; set; }
         public double SizeBefore { get; set; }
-
-        public double ColorOfBeer { get; set; }
+        public int Efficienty { get; set; }
+        public double BLG { get; set; }
+        public double ColorOfBeer { get; set; } = 0;
 
         public ObservableCollection<Hops> listOfHops = new ObservableCollection<Hops>();
 
         public ObservableCollection<Malts> listOfMalts = new ObservableCollection<Malts>();
 
+
+        public void CalculateBLGOfBeer()
+        {
+            double temp=0;
+            double a = 0;
+            double b;
+            foreach (var item in listOfMalts)
+            {
+                temp = item.YieldOfMalt*10*Efficienty*item.WeightOfMalt/100;
+                a += temp;
+            }
+           // temp = (SizeBefore * 1000) - (a / 1.587);
+            temp = (SizeBefore * 1000) - (a / 1.587) + a;
+            temp = a / temp * 100;
+            BLG = temp;
+        }
       
         public void CalculateColorOfBeer()
         {
@@ -59,7 +76,7 @@ namespace Beer
 
         }
 
-        public void AddMalts(string name, double weight, int color, int yield)
+        public void AddMalts(string name, double weight, int color, double yield)
         {
             listOfMalts.Add(new Malts { NameOfMalt = name, WeightOfMalt = weight, ColorOfMalt = color, YieldOfMalt = yield });
         }

@@ -12,6 +12,6 @@ namespace Beer
         public double WeightOfMalt { get; set; }
 
         public int ColorOfMalt { get; set; }
-        public int YieldOfMalt { get; set; }
+        public double YieldOfMalt { get; set; }
     }
 }

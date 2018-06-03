@@ -43,34 +43,38 @@ namespace Beer
             }
 
 
-             
+
             ListOfBeers.ItemsSource = listOfBeers;
         }
 
-    
-       
-       
-      
+
+
+
+
 
         private void ListOfBeers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             openIndex = ListOfBeers.SelectedIndex;
-            ListOfHops.ItemsSource = listOfBeers[openIndex].listOfHops;
-            ListOfMalts.ItemsSource = listOfBeers[openIndex].listOfMalts;
-
-
-
+            Open(openIndex);
         }
 
         private void MaltsAddButton_Click(object sender, RoutedEventArgs e)
         {
-           
+
             listOfBeers[openIndex].AddMalts();
             MessageBox.Show(listOfBeers[openIndex].SumOfHops.ToString());
         }
 
-      
-        
+
+        public void Open(int open)
+        {
+
+            ListOfHops.ItemsSource = listOfBeers[open].listOfHops;
+            ListOfMalts.ItemsSource = listOfBeers[open].listOfMalts;
+            NameBox.DataContext = listOfBeers[open];
+            listOfBeers[openIndex].CalculateColorOfBeer();
+            EbcWindow.DataContext = Math.Round(listOfBeers[open].ColorOfBeer);
+        }
         /*
          * 
          * Opis Przycisków w Menu
@@ -90,7 +94,8 @@ namespace Beer
 
             newRecipe.ShowDialog();
             listOfBeers.Add(new Recipe() { Name = newRecipe.NameOfBeerBox.Text });
-            MessageBox.Show(newRecipe.NameOfBeerBox.Text);
+
+            Open(listOfBeers.Count - 1);
         }
 
 
@@ -142,23 +147,39 @@ namespace Beer
         {
             AddMalt addMalt = new AddMalt();
             addMalt.ShowDialog();
-            listOfBeers[openIndex].AddMalts(addMalt.AddMaltName.Text, Convert.ToDouble(addMalt.AddWeightMalt.Text),Convert.ToInt32(addMalt.AddColorMalt.Text), Convert.ToInt32(addMalt.AddYieldMalt.Text));
+            if (addMalt.AddMaltName.Text != "" && addMalt.AddWeightMalt.Text != "" && addMalt.AddColorMalt.Text!="" && addMalt.AddYieldMalt.Text !="")
+            {
+                listOfBeers[openIndex].AddMalts(addMalt.AddMaltName.Text, double.Parse(addMalt.AddWeightMalt.Text.Replace('.', ',')), Convert.ToInt32(addMalt.AddColorMalt.Text), Convert.ToDouble(addMalt.AddYieldMalt.Text));
+            }
             MessageBox.Show(HopItem.IsSelected.ToString());
-            listOfBeers[openIndex].CalculateColorOfBeer();
-            EbcWindow.DataContext = Math.Round(listOfBeers[openIndex].ColorOfBeer);
+
+            if (double.TryParse(Size.Text.Replace('.', ','), out double a))
+            {
+                listOfBeers[openIndex].SizeBefore = a;
+
+                listOfBeers[openIndex].CalculateColorOfBeer();
+                EbcWindow.DataContext = Math.Round(listOfBeers[openIndex].ColorOfBeer);
+            }
+
+            if (int.TryParse(EfficientyBox.Text.Replace('.', ','), out int efficienty))
+            {
+                listOfBeers[openIndex].Efficienty = efficienty;
+                listOfBeers[openIndex].CalculateBLGOfBeer();
+                BLGWindow.DataContext = Math.Round(listOfBeers[openIndex].BLG, 1);
+            }
 
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            if(MaltItem.IsSelected==true)
+            if (MaltItem.IsSelected == true)
             {
                 AddMalt addMalt = new AddMalt();
                 addMalt.ShowDialog();
-                listOfBeers[openIndex].AddMalts(addMalt.AddMaltName.Text, Convert.ToInt32(addMalt.AddWeightMalt.Text), Convert.ToInt32(addMalt.AddColorMalt.Text), Convert.ToInt32(addMalt.AddYieldMalt.Text));
+                listOfBeers[openIndex].AddMalts(addMalt.AddMaltName.Text, Convert.ToInt32(addMalt.AddWeightMalt.Text), Convert.ToInt32(addMalt.AddColorMalt.Text), Convert.ToDouble(addMalt.AddYieldMalt.Text));
                 MessageBox.Show(HopItem.IsSelected.ToString());
             }
-            else if(HopItem.IsSelected==true)
+            else if (HopItem.IsSelected == true)
             {
                 AddHop addHop = new AddHop();
                 addHop.ShowDialog();
@@ -167,12 +188,26 @@ namespace Beer
 
 
 
+
             }
         }
 
-        private void Size_TextChanged(object sender, TextChangedEventArgs e)
+        private void ValueChange(object sender, TextChangedEventArgs e)
         {
-            listOfBeers[openIndex].SizeBefore = Convert.ToDouble(Size.Text);
+            if (double.TryParse(Size.Text.Replace('.', ','), out double a))
+                listOfBeers[openIndex].SizeBefore = a;
         }
+
+        private void bye(object sender, RoutedEventArgs e)
+        {
+            listOfBeers[openIndex].Efficienty = Convert.ToInt32(EfficientyBox.Text);
+            listOfBeers[openIndex].CalculateBLGOfBeer();
+            BLGWindow.DataContext = Math.Round(listOfBeers[openIndex].BLG, 1);
+        }
+
+        //new private void  SizeChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    listOfBeers[openIndex].SizeBefore = Convert.ToDouble(Size.Text);
+        //}
     }
 }

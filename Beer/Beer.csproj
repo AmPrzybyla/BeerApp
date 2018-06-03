@@ -68,6 +68,7 @@
     </Compile>
     <Compile Include="PercentageConverter.cs" />
     <Compile Include="Recipe.cs" />
+    <Compile Include="VolumeConverter.cs" />
     <Page Include="AddHop.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
