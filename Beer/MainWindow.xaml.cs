@@ -33,14 +33,14 @@ namespace Beer
         {
 
             InitializeComponent();
-            listOfBeers.Add(new Recipe() { Name = "pale Ale", SumOfHops = 12 });
-            listOfBeers.Add(new Recipe() { Name = "PiPa", SumOfHops = 20 });
-            listOfBeers.Add(new Recipe() { Name = "American Wheat", SumOfHops = 36 });
+            //listOfBeers.Add(new Recipe() { Name = "pale Ale", SumOfHops = 12 });
+            //listOfBeers.Add(new Recipe() { Name = "PiPa", SumOfHops = 20 });
+            //listOfBeers.Add(new Recipe() { Name = "American Wheat", SumOfHops = 36 });
 
-            for (int i = 0; i < listOfBeers.Count; i++)
-            {
-                listOfBeers[i].AddHops();
-            }
+            //for (int i = 0; i < listOfBeers.Count; i++)
+            //{
+            //    listOfBeers[i].AddHops();
+            //}
 
 
 
@@ -62,7 +62,7 @@ namespace Beer
         {
 
             listOfBeers[openIndex].AddMalts();
-            MessageBox.Show(listOfBeers[openIndex].SumOfHops.ToString());
+          //  MessageBox.Show(listOfBeers[openIndex].SumOfHops.ToString());
         }
 
 
@@ -105,7 +105,12 @@ namespace Beer
             AddHop addHop = new AddHop();
             addHop.ShowDialog();
             listOfBeers[openIndex].AddHops(addHop.AddHopName.Text, Convert.ToDouble(addHop.AddHopAcids.Text), Convert.ToInt32(addHop.AddHopTime.Text), Convert.ToInt32(addHop.AddHopWeight.Text));
-            listOfBeers[openIndex].SumOfHops += Convert.ToInt32(addHop.AddHopWeight.Text);
+          //  listOfBeers[openIndex].SumOfHops += Convert.ToInt32(addHop.AddHopWeight.Text);
+
+
+            listOfBeers[openIndex].CalculateIBU();
+            IBUBox.DataContext = Math.Round(listOfBeers[openIndex].IBU, 1);
+            MessageBox.Show(listOfBeers[openIndex].IBU.ToString());
 
 
 
@@ -183,8 +188,9 @@ namespace Beer
             {
                 AddHop addHop = new AddHop();
                 addHop.ShowDialog();
+               // if()
                 listOfBeers[openIndex].AddHops(addHop.AddHopName.Text, Convert.ToDouble(addHop.AddHopAcids.Text), Convert.ToInt32(addHop.AddHopTime.Text), Convert.ToInt32(addHop.AddHopWeight.Text));
-                listOfBeers[openIndex].SumOfHops += Convert.ToInt32(addHop.AddHopWeight.Text);
+               // listOfBeers[openIndex].SumOfHops += Convert.ToInt32(addHop.AddHopWeight.Text);
 
 
 
@@ -195,6 +201,7 @@ namespace Beer
         private void ValueChange(object sender, TextChangedEventArgs e)
         {
             if (double.TryParse(Size.Text.Replace('.', ','), out double a))
+                if(openIndex>0)
                 listOfBeers[openIndex].SizeBefore = a;
         }
 
@@ -205,9 +212,9 @@ namespace Beer
             BLGWindow.DataContext = Math.Round(listOfBeers[openIndex].BLG, 1);
         }
 
-        //new private void  SizeChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    listOfBeers[openIndex].SizeBefore = Convert.ToDouble(Size.Text);
-        //}
+        new private void SizeChanged(object sender, TextChangedEventArgs e)
+        {
+            listOfBeers[openIndex].SizeBefore = Convert.ToDouble(Size.Text);
+        }
     }
 }

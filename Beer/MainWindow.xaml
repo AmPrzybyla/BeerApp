@@ -85,7 +85,6 @@
             <StackPanel Grid.Row="0" x:Name="StackPanel">
                 <DockPanel>
                     <StackPanel DockPanel.Dock="Left" Width="{Binding Converter={StaticResource PercentageConverter}, ElementName=StackPanel, Path=ActualWidth, ConverterParameter=5}">
-                        <Button Margin="10">edi</Button>
                         <WrapPanel>
                             <Label Width="200">Nazwa:</Label>
                             <TextBox  x:Name="NameBox"  Text="{Binding Path=Name}" Width="150"></TextBox>
@@ -109,18 +108,18 @@
                         </WrapPanel>
                     </StackPanel>
                     <StackPanel DockPanel.Dock="Right"  Width="{Binding Converter={StaticResource PercentageConverter}, ElementName=StackPanel, Path=ActualWidth, ConverterParameter=5}" >
-                        <Button Margin="10">edi</Button>
-                        <WrapPanel>
+                        <WrapPanel Margin="1">
                             <Label Width="200">BLG</Label>
-                            <TextBlock x:Name="BLGWindow" Width="150" Text="{Binding}" ></TextBlock>
+                            <Border BorderThickness="1" BorderBrush="#FFAEB0B6">
+                                <TextBlock x:Name="BLGWindow" Width="150" Text="{Binding}" ></TextBlock>
+                            </Border>
                         </WrapPanel>
-                        <WrapPanel>
-                            <Label Width="200">BLG przed gotowaniem</Label>
-                            <TextBox Width="150"></TextBox>
-                        </WrapPanel>
-                        <WrapPanel>
+
+                        <WrapPanel Margin="1">
                             <Label Width="200">IBU</Label>
-                            <TextBox Width="150"></TextBox>
+                            <Border BorderThickness="1" BorderBrush="#FFAEB0B6">
+                                <TextBlock x:Name="IBUBox" Width="150"  Text="{Binding}" ></TextBlock>
+                            </Border>
                         </WrapPanel>
                         <WrapPanel>
                             <Label Width="200">Barwa</Label>
@@ -137,7 +136,7 @@
                 <StackPanel DockPanel.Dock="Right" Width="100" VerticalAlignment="Center">
                     <Button Margin="5,2" x:Name="AddButton" Click="AddButton_Click" >Add Malt</Button>
                     <Button Margin="5,2">Save</Button>
-                    
+
                 </StackPanel>
                 <TabControl>
                     <TabItem x:Name="MaltItem" Header="Słód">
@@ -236,6 +235,13 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
+                                <!--<DataGridTemplateColumn Header="Utylizacja">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>-->
 
 
                                 <DataGridTemplateColumn Header="Waga" IsReadOnly="False" >

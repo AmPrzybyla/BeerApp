@@ -11,16 +11,30 @@ namespace Beer
     public class Recipe
     {
         public string Name { get; set; }
-        public int SumOfHops { get; set; }
+       // public int SumOfHops { get; set; }
         public double SizeBefore { get; set; }
         public int Efficienty { get; set; }
         public double BLG { get; set; }
         public double ColorOfBeer { get; set; } = 0;
+        public double IBU { get; set; }
 
         public ObservableCollection<Hops> listOfHops = new ObservableCollection<Hops>();
 
         public ObservableCollection<Malts> listOfMalts = new ObservableCollection<Malts>();
 
+
+        public void CalculateIBU()
+        {
+            double temp=0;
+            double temp1=0;
+            foreach (var item in listOfHops)
+            {
+                temp = temp + ((item.WeightOfHop * item.AlphaAcidsOfHop * item.Utilization[item.TimeOfBoiling]) / (SizeBefore*10));
+               // temp =item.Utilization[item.TimeOfBoiling];
+            }
+            IBU = temp;
+
+        }
 
         public void CalculateBLGOfBeer()
         {
@@ -68,13 +82,13 @@ namespace Beer
             listOfHops.Add(new Hops { NameOfHop = name, AlphaAcidsOfHop = alpha, TimeOfBoiling = time, WeightOfHop = weight });
         }
 
-        public void AddHops()
-        {
-            listOfHops.Add(new Hops { NameOfHop = Name, AlphaAcidsOfHop = 12, TimeOfBoiling = 30, WeightOfHop = 30 });
-            listOfHops.Add(new Hops { NameOfHop = Name + "edi", AlphaAcidsOfHop = 8, TimeOfBoiling = 60, WeightOfHop = 10, });
-            listOfHops.Add(new Hops { NameOfHop = Name+ "piwo", AlphaAcidsOfHop = 10, TimeOfBoiling = 15, WeightOfHop = 60, });
+        //public void AddHops()
+        //{
+        //    listOfHops.Add(new Hops { NameOfHop = Name, AlphaAcidsOfHop = 12, TimeOfBoiling = 30, WeightOfHop = 30 });
+        //    listOfHops.Add(new Hops { NameOfHop = Name + "edi", AlphaAcidsOfHop = 8, TimeOfBoiling = 60, WeightOfHop = 10, });
+        //    listOfHops.Add(new Hops { NameOfHop = Name+ "piwo", AlphaAcidsOfHop = 10, TimeOfBoiling = 15, WeightOfHop = 60, });
 
-        }
+        //}
 
         public void AddMalts(string name, double weight, int color, double yield)
         {
