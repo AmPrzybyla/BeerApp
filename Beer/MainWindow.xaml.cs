@@ -33,18 +33,7 @@ namespace Beer
         {
 
             InitializeComponent();
-            //listOfBeers.Add(new Recipe() { Name = "pale Ale", SumOfHops = 12 });
-            //listOfBeers.Add(new Recipe() { Name = "PiPa", SumOfHops = 20 });
-            //listOfBeers.Add(new Recipe() { Name = "American Wheat", SumOfHops = 36 });
-
-            //for (int i = 0; i < listOfBeers.Count; i++)
-            //{
-            //    listOfBeers[i].AddHops();
-            //}
-
-
-
-            ListOfBeers.ItemsSource = listOfBeers;
+         
         }
 
 
@@ -62,7 +51,6 @@ namespace Beer
         {
 
             listOfBeers[openIndex].AddMalts();
-          //  MessageBox.Show(listOfBeers[openIndex].SumOfHops.ToString());
         }
 
 
@@ -94,6 +82,7 @@ namespace Beer
 
             newRecipe.ShowDialog();
             listOfBeers.Add(new Recipe() { Name = newRecipe.NameOfBeerBox.Text });
+            ListOfBeers.ItemsSource = listOfBeers;
 
             Open(listOfBeers.Count - 1);
         }
@@ -102,18 +91,7 @@ namespace Beer
 
         private void AddHop_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            AddHop addHop = new AddHop();
-            addHop.ShowDialog();
-            listOfBeers[openIndex].AddHops(addHop.AddHopName.Text, Convert.ToDouble(addHop.AddHopAcids.Text), Convert.ToInt32(addHop.AddHopTime.Text), Convert.ToInt32(addHop.AddHopWeight.Text));
-          //  listOfBeers[openIndex].SumOfHops += Convert.ToInt32(addHop.AddHopWeight.Text);
-
-
-            listOfBeers[openIndex].CalculateIBU();
-            IBUBox.DataContext = Math.Round(listOfBeers[openIndex].IBU, 1);
-            MessageBox.Show(listOfBeers[openIndex].IBU.ToString());
-
-
-
+            AddHop();
 
         }
 
@@ -150,11 +128,17 @@ namespace Beer
 
         private void AddMalt_Execute(object sender, ExecutedRoutedEventArgs e)
         {
+
+            AddMalt();
+        }
+
+        private void AddMalt()
+        {
             AddMalt addMalt = new AddMalt();
             addMalt.ShowDialog();
-            if (addMalt.AddMaltName.Text != "" && addMalt.AddWeightMalt.Text != "" && addMalt.AddColorMalt.Text!="" && addMalt.AddYieldMalt.Text !="")
+            if (addMalt.AddMaltName.Text != "" && addMalt.AddWeightMalt.Text != "" && addMalt.AddColorMalt.Text != "" && addMalt.AddYieldMalt.Text != "")
             {
-                listOfBeers[openIndex].AddMalts(addMalt.AddMaltName.Text, double.Parse(addMalt.AddWeightMalt.Text.Replace('.', ',')), Convert.ToInt32(addMalt.AddColorMalt.Text), Convert.ToDouble(addMalt.AddYieldMalt.Text));
+                listOfBeers[openIndex].AddMalts(addMalt.AddMaltName.Text, double.Parse(addMalt.AddWeightMalt.Text.Replace('.', ',')), Convert.ToInt32(addMalt.AddColorMalt.Text), double.Parse(addMalt.AddYieldMalt.Text.Replace('.', ',')));
             }
             MessageBox.Show(HopItem.IsSelected.ToString());
 
@@ -172,31 +156,36 @@ namespace Beer
                 listOfBeers[openIndex].CalculateBLGOfBeer();
                 BLGWindow.DataContext = Math.Round(listOfBeers[openIndex].BLG, 1);
             }
+        }
+
+        private void AddHop()
+        {
+
+            AddHop addHop = new AddHop();
+            addHop.ShowDialog();
+          //  if(addHop.AddHopAcids.Text!="" && addHop.AddHopName.Text!=""&& addHop.AddHopTime.Text!="" && addHop.AddHopWeight.Text!="")
+            listOfBeers[openIndex].AddHops(addHop.AddHopName.Text, double.Parse(addHop.AddHopAcids.Text.Replace('.', ',')), Convert.ToInt32(addHop.AddHopTime.Text), Convert.ToInt32(addHop.AddHopWeight.Text));
+
+
+            listOfBeers[openIndex].CalculateIBU();
+            IBUBox.DataContext = Math.Round(listOfBeers[openIndex].IBU, 1);
+            MessageBox.Show(listOfBeers[openIndex].IBU.ToString());
 
         }
+
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             if (MaltItem.IsSelected == true)
             {
-                AddMalt addMalt = new AddMalt();
-                addMalt.ShowDialog();
-                listOfBeers[openIndex].AddMalts(addMalt.AddMaltName.Text, Convert.ToInt32(addMalt.AddWeightMalt.Text), Convert.ToInt32(addMalt.AddColorMalt.Text), Convert.ToDouble(addMalt.AddYieldMalt.Text));
-                MessageBox.Show(HopItem.IsSelected.ToString());
+                AddMalt();
             }
             else if (HopItem.IsSelected == true)
             {
-                AddHop addHop = new AddHop();
-                addHop.ShowDialog();
-               // if()
-                listOfBeers[openIndex].AddHops(addHop.AddHopName.Text, Convert.ToDouble(addHop.AddHopAcids.Text), Convert.ToInt32(addHop.AddHopTime.Text), Convert.ToInt32(addHop.AddHopWeight.Text));
-               // listOfBeers[openIndex].SumOfHops += Convert.ToInt32(addHop.AddHopWeight.Text);
-
-
-
-
+                AddHop();
             }
         }
+
 
         private void ValueChange(object sender, TextChangedEventArgs e)
         {

@@ -11,7 +11,6 @@ namespace Beer
     public class Recipe
     {
         public string Name { get; set; }
-       // public int SumOfHops { get; set; }
         public double SizeBefore { get; set; }
         public int Efficienty { get; set; }
         public double BLG { get; set; }
@@ -26,7 +25,7 @@ namespace Beer
         public void CalculateIBU()
         {
             double temp=0;
-            double temp1=0;
+       
             foreach (var item in listOfHops)
             {
                 temp = temp + ((item.WeightOfHop * item.AlphaAcidsOfHop * item.Utilization[item.TimeOfBoiling]) / (SizeBefore*10));
@@ -40,7 +39,6 @@ namespace Beer
         {
             double temp=0;
             double a = 0;
-            double b;
             foreach (var item in listOfMalts)
             {
                 temp = item.YieldOfMalt*10*Efficienty*item.WeightOfMalt/100;

@@ -28,7 +28,10 @@ namespace Beer
 
         private void AddHopButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            if (AddHopName.Text != "" && AddHopTime.Text != "" && AddHopWeight.Text != "" && AddHopAcids.Text != "")
+                this.Close();
+            else
+                MessageBox.Show("musisz wszystko uzupełnić");
         }
     }
 }
